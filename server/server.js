@@ -7,6 +7,8 @@ require('./db/db');
 
 //routers
 const usersRouter = require('./routes/routes/users');
+const typeRouter = require('./routes/routes/types');
+const allInfoRouter = require('./routes/routes/allInfo');
 
 // app
 const app = express();
@@ -18,6 +20,8 @@ app.use(cors());
 
 // routes middleware
 app.use('/users', usersRouter);
+app.use('/type', typeRouter);
+app.use('/allInfo', allInfoRouter);
 
 const port = process.env.PORT;
 
