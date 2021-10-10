@@ -14,4 +14,6 @@ app.use(cors());
 
 // routes middleware
 
-const port = process.env.PORT
+const port = process.env.PORT;
+
+app.listen(port, () => console.log(`your server is ready on ${port} :)`));
