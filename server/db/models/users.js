@@ -8,6 +8,7 @@ const user = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  Rate: { type: Number, required: true },
   role: { default: 'User' },
 });
 
@@ -31,7 +32,7 @@ users.statics.authenticateBasic = async function (email, password) {
       };
 
       const options = {
-        expiresIn: '60m',
+        expiresIn: '304020m',
       };
 
       return [jwt.sign(payload, process.env.SECRET, options), 200];
