@@ -8,7 +8,7 @@ const users = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  Rate: { type: Number, required: true },
+  rate: { type: Number, required: true },
   role: {
     type: String,
     default: 'subscriber',

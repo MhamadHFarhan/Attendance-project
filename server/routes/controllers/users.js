@@ -1,6 +1,6 @@
 const usersModel = require('./../../db/models/users');
 
-const createNewAuthor = (req, res) => {
+const createNewUser = (req, res) => {
   const { firstName, lastName, email, password, rate, role } = req.body;
 
   const user = new usersModel({
@@ -22,6 +22,20 @@ const createNewAuthor = (req, res) => {
     });
 };
 
+const UpdateUser = (req, res) => {
+  const id = req.params.id;
+
+  usersModel
+    .findOneAndUpdate(id, req.body, { new: true })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 module.exports = {
-  createNewAuthor,
+  createNewUser,
+  UpdateUser,
 };
