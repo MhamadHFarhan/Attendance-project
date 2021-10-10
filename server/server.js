@@ -5,6 +5,9 @@ const cors = require('cors');
 require('dotenv').config();
 require('./db/db');
 
+//routers
+const usersRouter = require('./routes/routes/users');
+
 // app
 const app = express();
 
@@ -14,6 +17,7 @@ app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cors());
 
 // routes middleware
+app.use('/users', usersRouter);
 
 const port = process.env.PORT;
 

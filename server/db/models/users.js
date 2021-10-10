@@ -3,17 +3,20 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Schema
-const user = new mongoose.Schema({
+const users = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
   Rate: { type: Number, required: true },
-  role: { default: 'User' },
+  role: {
+    type: String,
+    default: 'subscriber',
+  },
 });
 
 // Hash the password
-user.pre('save', async function () {
+users.pre('save', async function () {
   this.email = this.email.toLowerCase();
   this.password = await bcrypt.hash(this.password, 10);
 });
@@ -27,7 +30,6 @@ users.statics.authenticateBasic = async function (email, password) {
     if (valid) {
       const payload = {
         userId: user._id,
-        country: user.country,
         role: user.role,
       };
 
@@ -43,4 +45,4 @@ users.statics.authenticateBasic = async function (email, password) {
   }
 };
 
-module.exports = mongoose.model('User', users);
+module.exports = mongoose.model('Users', users);
