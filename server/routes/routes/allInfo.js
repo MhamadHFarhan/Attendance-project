@@ -1,10 +1,11 @@
 const express = require('express');
 
-const { getAllInfo } = require('../controllers/allInfo');
+const { getInfoByUser, creteAllInfo } = require('../controllers/allInfo');
+const authentication = require('../middlewares/auth');
 
 const allInfoRouter = express.Router();
 
-allInfoRouter.get('/', getAllInfo);
-
+allInfoRouter.get('/:id', authentication, getInfoByUser);
+allInfoRouter.post('/:id', authentication, creteAllInfo);
 
 module.exports = allInfoRouter;
