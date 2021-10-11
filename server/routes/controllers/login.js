@@ -34,7 +34,6 @@ const login = (req, res) => {
           expiresIn: '30000m',
         };
 
-        console.log(payload);
         const token = await jwt.sign(payload, process.env.SECRET, options);
         res.status(200).json({
           success: true,
@@ -46,7 +45,6 @@ const login = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         success: false,
         message: `Server Error`,
