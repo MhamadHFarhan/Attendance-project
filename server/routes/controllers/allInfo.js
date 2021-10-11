@@ -18,7 +18,7 @@ const getInfoByUser = (req, res) => {
 
 const getInfoUserByAdmin = (req, res) => {
   if (req.token.role === 'admin') {
-    const userId = req.params.id;
+    const userId = req.params.userId;
     allInfoModels
       .find({ userInfo: userId })
       .populate('userInfo', '-_id -__v -password')
@@ -31,17 +31,19 @@ const getInfoUserByAdmin = (req, res) => {
         res.send(err);
       });
   } else {
-    return res.send(`You cant move here`)
+    return res.send(`You cant move here`);
   }
 };
 
 const creteAllInfo = (req, res) => {
   const typeId = req.params.typeId;
   const userId = req.token.userId;
+  const startDate = req.body.startDate;
 
   const newAllInfo = allInfoModels({
     Alltype: typeId,
     userInfo: userId,
+    startDate,
   });
   console.log(newAllInfo);
 
@@ -57,8 +59,19 @@ const creteAllInfo = (req, res) => {
     });
 };
 
+const updateAllInfo = (req, res) => {
+  const typeId = req.params.typeId;
+
+  allInfoModels
+    .findOneAndUpdate({ Alltype: typeId }, req.body, { new: true })
+    .then((result) => {
+      res.status(200).json(result);
+    });
+};
+
 module.exports = {
   getInfoByUser,
   creteAllInfo,
   getInfoUserByAdmin,
+  updateAllInfo,
 };

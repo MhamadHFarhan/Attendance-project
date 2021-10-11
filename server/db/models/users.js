@@ -12,6 +12,7 @@ const users = new mongoose.Schema({
     type: String,
     default: 'subscriber',
   },
+  totalSalary: { type: Number },
 });
 
 // Hash the password
