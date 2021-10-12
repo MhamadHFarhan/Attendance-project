@@ -28,6 +28,7 @@ const login = (req, res) => {
         const payload = {
           userId: result._id,
           role: result.role,
+          firstName: result.firstName,
         };
 
         const options = {
@@ -39,6 +40,7 @@ const login = (req, res) => {
           success: true,
           message: `Email and Password are correct`,
           token: token,
+          payload: payload,
         });
       } catch (error) {
         throw new Error(error.message);

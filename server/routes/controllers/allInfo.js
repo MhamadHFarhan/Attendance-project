@@ -1,14 +1,60 @@
 const allInfoModels = require('../../db/models/allInfo');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const getInfoByUser = (req, res) => {
   const userId = req.token.userId;
-
+  console.log(userId);
   allInfoModels
-    .find({ userInfo: userId })
-    .populate('userInfo', '-_id -__v -password')
-    .populate('Alltype', '-_id -__v')
-    .exec()
+    .aggregate([
+      {
+        $match: {
+          userInfo: ObjectId(userId),
+        },
+      },
+      {
+        $lookup: {
+          from: 'types',
+          localField: 'Alltype',
+          foreignField: '_id',
+          as: 'type',
+        },
+      },
+      { $unwind: '$type' },
+      {
+        $addFields: {
+          rate: { $divide: ['$type.rate', 60] },
+          minutes: {
+            $dateDiff: {
+              startDate: '$startDate',
+              endDate: '$endDate',
+              unit: 'minute',
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$userInfo',
+          totalRate: {
+            $sum: {
+              $multiply: ['$minutes', '$rate'],
+            },
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      { $unwind: '$user' },
+    ])
     .then((result) => {
+      console.log(result);
       res.json(result);
     })
     .catch((err) => {

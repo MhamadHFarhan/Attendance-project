@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 // Schema
 const users = new mongoose.Schema({
@@ -12,7 +11,6 @@ const users = new mongoose.Schema({
     type: String,
     default: 'subscriber',
   },
-  totalSalary: { type: Number },
 });
 
 // Hash the password
